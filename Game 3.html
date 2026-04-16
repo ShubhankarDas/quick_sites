@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Write Your Gut a Letter 💌</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+
+        :root {
+
+            --ink: #1A1A2E;
+
+            --mustard: #E8B84B;
+
+            --coral: #E8614A;
+
+            --mint: #4DBFA8;
+
+            --lilac: #9B8EC4;
+
+            --blush: #F2A5A0;
+
+            --cream: #FFF8F0;
+
+            --sand: #F7E8D8;
+
+            --white: #FFFFFF;
+
+            --paper: #FEFBF5;
+
+        }
+
+
+
+        body {
+
+            font-family: 'DM Sans', sans-serif;
+
+            background: var(--ink);
+
+            color: var(--white);
+
+            min-height: 100vh;
+
+        }
+
+
+
+        /* Warm paper texture effect */
+
+        body::before {
+
+            content: '';
+
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+
+            background:
+
+                radial-gradient(ellipse at 15% 25%, rgba(242, 165, 160, 0.1) 0%, transparent 55%),
+
+                radial-gradient(ellipse at 85% 75%, rgba(155, 142, 196, 0.1) 0%, transparent 55%),
+
+                radial-gradient(ellipse at 50% 50%, rgba(232, 184, 75, 0.05) 0%, transparent 70%);
+
+        }
+
+
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+
+
+        /* Header */
+
+        .header {
+            text-align: center;
+            padding: 2.5rem 0 1.5rem;
+        }
+
+        .tag {
+
+            display: inline-block;
+            background: var(--blush);
+            color: var(--ink);
+
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+
+            padding: 0.3rem 0.9rem;
+            border-radius: 99px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+
+        }
+
+        .title {
+
+            font-family: 'Fraunces', serif;
+
+            font-size: clamp(2rem, 6vw, 3.4rem);
+            font-weight: 900;
+            line-height: 1.05;
+
+            color: var(--white);
+            margin-bottom: 0.5rem;
+
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: #a0a8b8;
+            font-style: italic;
+        }
+
+
+
+        /* Intro */
+
+        .intro-box {
+
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+
+            border-radius: 16px;
+            padding: 1.4rem 1.6rem;
+            margin: 1.5rem 0;
+            line-height: 1.7;
+
+            color: #c0ccd8;
+            font-size: 0.92rem;
+
+        }
+
+        .intro-box p+p {
+            margin-top: 0.75rem;
+        }
+
+
+
+        /* Timer */
+
+        .timer-section {
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .timer-display {
+
+            font-family: 'Fraunces', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+
+            color: var(--mustard);
+            letter-spacing: -0.02em;
+            line-height: 1;
+
+            margin-bottom: 0.5rem;
+
+        }
+
+        .timer-bar-wrap {
+
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 99px;
+            height: 6px;
+
+            max-width: 320px;
+            margin: 0 auto 1rem;
+            overflow: hidden;
+
+        }
+
+        .timer-bar {
+            height: 100%;
+            border-radius: 99px;
+            background: linear-gradient(90deg, var(--blush), var(--mustard));
+            transition: width 1s linear;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+
+
+        /* Prompt stepper */
+
+        .prompts-area {
+            margin: 2rem 0;
+        }
+
+        .prompt-stepper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-dot {
+
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+
+            transition: all 0.2s;
+
+            background: rgba(255, 255, 255, 0.08);
+            color: #6a7280;
+
+            border: 2px solid rgba(255, 255, 255, 0.1);
+
+        }
+
+        .step-dot.active {
+            background: var(--blush);
+            color: var(--ink);
+            border-color: var(--blush);
+            transform: scale(1.1);
+        }
+
+        .step-dot.done {
+            background: var(--mint);
+            color: var(--ink);
+            border-color: var(--mint);
+        }
+
+        .step-line {
+            width: 24px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+
+
+        .prompt-card {
+
+            background: linear-gradient(135deg, #22223A, #1C1C30);
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+
+            border-radius: 20px;
+            padding: 1.8rem;
+            margin-bottom: 1.25rem;
+
+            animation: promptIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+        }
+
+        @keyframes promptIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+
+
+        .prompt-num {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: var(--blush);
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+        }
+
+        .prompt-text {
+            font-family: 'Fraunces', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.4;
+            color: var(--white);
+            margin-bottom: 1.2rem;
+        }
+
+        .prompt-hint {
+            font-size: 0.82rem;
+            color: #6a7280;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+
+
+        textarea {
+
+            width: 100%;
+            min-height: 110px;
+            padding: 1rem 1.1rem;
+
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+
+            border-radius: 12px;
+            color: var(--white);
+
+            font-family: 'DM Serif Display', serif;
+            font-size: 1rem;
+            line-height: 1.6;
+
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s;
+
+            placeholder-color: #4a5060;
+
+        }
+
+        textarea::placeholder {
+            color: #4a5060;
+            font-style: italic;
+        }
+
+        textarea:focus {
+            border-color: rgba(242, 165, 160, 0.4);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+
+
+        .char-count {
+            font-size: 0.75rem;
+            color: #4a5060;
+            text-align: right;
+            margin-top: 0.3rem;
+        }
+
+
+
+        .prompt-nav {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+            margin-top: 0.75rem;
+        }
+
+
+
+        /* Letter view */
+
+        .letter-view {
+            display: none;
+        }
+
+        .letter-view.show {
+            display: block;
+        }
+
+
+
+        .letter-paper {
+
+            background: var(--paper);
+
+            border-radius: 16px;
+            padding: 3rem 2.5rem;
+
+            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.1);
+
+            position: relative;
+            overflow: hidden;
+            color: var(--ink);
+
+        }
+
+        .letter-paper::before {
+
+            content: '';
+            position: absolute;
+            inset: 0;
+
+            background: repeating-linear-gradient(transparent, transparent 27px, rgba(0, 0, 0, 0.04) 28px);
+
+            pointer-events: none;
+
+        }
+
+        .letter-paper::after {
+
+            content: '';
+            position: absolute;
+            left: 64px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+
+            background: rgba(232, 97, 74, 0.2);
+            pointer-events: none;
+
+        }
+
+
+
+        .letter-header {
+            font-size: 0.75rem;
+            text-align: right;
+            color: #9a8a70;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            padding-left: 72px;
+        }
+
+        .letter-greeting {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.4rem;
+            font-style: italic;
+            color: var(--blush);
+            margin-bottom: 1.5rem;
+            padding-left: 72px;
+        }
+
+        .letter-body {
+            padding-left: 72px;
+        }
+
+        .letter-prompt-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: #b0a090;
+            text-transform: uppercase;
+            margin: 1.2rem 0 0.4rem;
+        }
+
+        .letter-response {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #3d3020;
+            min-height: 1.5rem;
+        }
+
+        .letter-response.empty {
+            color: #c0b0a0;
+            font-style: italic;
+        }
+
+        .letter-sign {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #3d3020;
+            margin-top: 2rem;
+            padding-left: 72px;
+        }
+
+
+
+        /* buttons */
+
+        .btn {
+
+            padding: 0.7rem 1.5rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+
+        }
+
+        .btn-blush {
+            background: var(--blush);
+            color: var(--ink);
+        }
+
+        .btn-ghost {
+            background: rgba(255, 255, 255, 0.07);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-mint {
+            background: var(--mint);
+            color: var(--ink);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+
+
+        /* Warmth footer */
+
+        .warmth-footer {
+            margin-top: 2.5rem;
+            text-align: center;
+        }
+
+        .warmth-footer p {
+            font-size: 0.85rem;
+            color: #6a7280;
+            line-height: 1.7;
+        }
+
+        .warmth-footer .big-emoji {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+
+
+        /* share prompts after */
+
+        .share-prompts {
+
+            background: rgba(77, 191, 168, 0.08);
+            border: 1px solid rgba(77, 191, 168, 0.2);
+
+            border-radius: 16px;
+            padding: 1.4rem;
+            margin-top: 2rem;
+
+        }
+
+        .share-prompts h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1rem;
+            color: var(--mint);
+            margin-bottom: 0.75rem;
+        }
+
+        .share-prompts ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .share-prompts li {
+            font-size: 0.88rem;
+            color: #a0b8b0;
+            padding-left: 1.2rem;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .share-prompts li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--mint);
+        }
+
+
+
+        hr.div {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin: 2rem 0;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+
+
+        <div class="header">
+
+            <div class="tag">Activity · Mental Health Session</div>
+
+            <h1 class="title">Write Your Gut a Letter 💌</h1>
+
+            <p class="subtitle">5 minutes. Private. No wrong words.</p>
+
+        </div>
+
+
+
+        <div class="intro-box">
+
+            <p>Your gut has been sending you messages — probably for a while. This is your chance to write back.</p>
+
+            <p>You'll have 5 minutes and 4 gentle prompts. <strong style="color:var(--blush)">Everything you write is
+                    completely private</strong> — you'll never be asked to read it aloud unless you choose to. At the
+                end, you'll see your letter in full.</p>
+
+        </div>
+
+
+
+        <!-- Timer -->
+
+        <div class="timer-section">
+
+            <div class="timer-display" id="timerDisplay">5:00</div>
+
+            <div class="timer-bar-wrap">
+
+                <div class="timer-bar" id="timerBar" style="width:100%"></div>
+
+            </div>
+
+            <div class="timer-controls">
+
+                <button class="btn btn-blush" id="startTimerBtn" onclick="startTimer()">▶ Start 5-min Timer</button>
+
+                <button class="btn btn-ghost" id="pauseTimerBtn" onclick="pauseTimer()" disabled>⏸ Pause</button>
+
+                <button class="btn btn-ghost" onclick="resetTimer()">↺ Reset</button>
+
+            </div>
+
+        </div>
+
+
+
+        <hr class="div">
+
+
+
+        <!-- Prompt Stepper -->
+
+        <div class="prompts-area" id="promptsArea">
+
+            <div class="prompt-stepper">
+
+                <div class="step-dot active" id="dot-0" onclick="goToPrompt(0)">1</div>
+
+                <div class="step-line"></div>
+
+                <div class="step-dot" id="dot-1" onclick="goToPrompt(1)">2</div>
+
+                <div class="step-line"></div>
+
+                <div class="step-dot" id="dot-2" onclick="goToPrompt(2)">3</div>
+
+                <div class="step-line"></div>
+
+                <div class="step-dot" id="dot-3" onclick="goToPrompt(3)">4</div>
+
+            </div>
+
+
+
+            <div id="promptContainer"></div>
+
+
+
+            <div style="display:flex; gap:0.75rem; justify-content:center; margin-top:1.5rem; flex-wrap:wrap">
+
+                <button class="btn btn-ghost" id="prevBtn" onclick="prevPrompt()" disabled>← Back</button>
+
+                <button class="btn btn-blush" id="nextPromptBtn" onclick="nextPrompt()">Next prompt →</button>
+
+                <button class="btn btn-mint" id="viewLetterBtn" onclick="viewLetter()" style="display:none">💌 View My
+                    Letter</button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Letter View -->
+
+        <div class="letter-view" id="letterView">
+
+            <div class="letter-paper" id="letterPaper">
+
+                <div class="letter-header" id="letterDate"></div>
+
+                <div class="letter-greeting">Dear Gut,</div>
+
+                <div class="letter-body" id="letterBody"></div>
+
+                <div class="letter-sign">With more awareness now,<br>Me 🤍</div>
+
+            </div>
+
+
+
+            <div style="display:flex; gap:0.75rem; justify-content:center; margin-top:1.5rem; flex-wrap:wrap">
+
+                <button class="btn btn-ghost" onclick="goBackToEdit()">✏️ Edit my letter</button>
+
+                <button class="btn btn-blush" id="saveImageBtn" onclick="saveAsImage()">📸 Save as Image</button>
+
+            </div>
+
+
+
+            <div class="share-prompts">
+
+                <h3>✨ Optional — if the group wants to share</h3>
+
+                <ul>
+
+                    <li>Was there a prompt that surprised you — where words came easily or you went totally blank?</li>
+
+                    <li>What's one thing you wrote that you've never said out loud before?</li>
+
+                    <li>If your gut could reply to your letter, what do you think it would say?</li>
+
+                    <li>What's the one thing from your letter you want to actually act on this week?</li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="warmth-footer">
+
+            <span class="big-emoji">💛</span>
+
+            <p>You don't have to share a single word.<br>The act of writing it is enough.</p>
+
+        </div>
+
+
+
+    </div>
+
+
+
+    <script>
+
+        const PROMPTS = [
+
+            {
+
+                num: "Prompt 1 of 4",
+
+                text: "I know I don't always listen to you. Lately, you've been trying to tell me...",
+
+                hint: "What sensation, feeling, or nagging thought keeps coming back? It could be about work, relationships, your own wellbeing.",
+
+                placeholder: "You've been trying to tell me that..."
+
+            },
+
+            {
+
+                num: "Prompt 2 of 4",
+
+                text: "The thing I keep pushing past — that you keep flagging — is...",
+
+                hint: "What are you ignoring? The situation you keep telling yourself is fine, or the boundary you keep not holding.",
+
+                placeholder: "The thing I keep pushing past is..."
+
+            },
+
+            {
+
+                num: "Prompt 3 of 4",
+
+                text: "What I want to promise you from now on is...",
+
+                hint: "Even something tiny counts. What's one small way you could start listening more?",
+
+                placeholder: "I promise you that I'll..."
+
+            },
+
+            {
+
+                num: "Prompt 4 of 4",
+
+                text: "P.S. Thank you for...",
+
+                hint: "When did your gut get it right? When did it protect you, or light you up, or pull you toward something good?",
+
+                placeholder: "P.S. Thank you for..."
+
+            }
+
+        ];
+
+
+
+        let responses = ['', '', '', ''];
+
+        let currentPrompt = 0;
+
+        let timerInterval = null;
+
+        let timerSeconds = 300;
+
+        let timerRunning = false;
+
+
+
+        function renderPrompt(idx) {
+
+            const p = PROMPTS[idx];
+
+            const container = document.getElementById('promptContainer');
+
+            container.innerHTML = `
+
+    <div class="prompt-card">
+
+      <div class="prompt-num">${p.num}</div>
+
+      <div class="prompt-text">${p.text}</div>
+
+      <div class="prompt-hint">${p.hint}</div>
+
+      <textarea id="ta-${idx}" 
+
+        placeholder="${p.placeholder}"
+
+        oninput="saveResponse(${idx}, this.value)"
+
+        maxlength="500"
+
+      >${responses[idx]}</textarea>
+
+      <div class="char-count" id="cc-${idx}">${responses[idx].length}/500</div>
+
+    </div>`;
+
+
+
+            document.getElementById(`ta-${idx}`).addEventListener('input', function () {
+
+                document.getElementById(`cc-${idx}`).textContent = this.value.length + '/500';
+
+            });
+
+
+
+            // Update dots
+
+            for (let i = 0; i < 4; i++) {
+
+                const dot = document.getElementById('dot-' + i);
+
+                dot.classList.remove('active', 'done');
+
+                if (i === idx) dot.classList.add('active');
+
+                else if (responses[i].trim().length > 0) dot.classList.add('done');
+
+            }
+
+
+
+            document.getElementById('prevBtn').disabled = idx === 0;
+
+            const isLast = idx === 3;
+
+            document.getElementById('nextPromptBtn').style.display = isLast ? 'none' : 'inline-flex';
+
+            document.getElementById('viewLetterBtn').style.display = isLast ? 'inline-flex' : 'none';
+
+        }
+
+
+
+        function saveResponse(idx, val) {
+
+            responses[idx] = val;
+
+        }
+
+
+
+        function nextPrompt() {
+
+            const ta = document.getElementById(`ta-${currentPrompt}`);
+
+            if (ta) responses[currentPrompt] = ta.value;
+
+            if (currentPrompt < 3) {
+
+                currentPrompt++;
+
+                renderPrompt(currentPrompt);
+
+            }
+
+        }
+
+
+
+        function prevPrompt() {
+
+            const ta = document.getElementById(`ta-${currentPrompt}`);
+
+            if (ta) responses[currentPrompt] = ta.value;
+
+            if (currentPrompt > 0) {
+
+                currentPrompt--;
+
+                renderPrompt(currentPrompt);
+
+            }
+
+        }
+
+
+
+        function goToPrompt(idx) {
+
+            const ta = document.getElementById(`ta-${currentPrompt}`);
+
+            if (ta) responses[currentPrompt] = ta.value;
+
+            currentPrompt = idx;
+
+            renderPrompt(idx);
+
+        }
+
+
+
+        function viewLetter() {
+
+            const ta = document.getElementById(`ta-${currentPrompt}`);
+
+            if (ta) responses[currentPrompt] = ta.value;
+
+
+
+            const promptLabels = [
+
+                "Lately, you've been trying to tell me...",
+
+                "The thing I keep pushing past...",
+
+                "What I promise you from now on...",
+
+                "P.S. Thank you for..."
+
+            ];
+
+
+
+            const body = document.getElementById('letterBody');
+
+            const now = new Date();
+
+            document.getElementById('letterDate').textContent =
+
+                now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+
+
+            body.innerHTML = responses.map((r, i) =>
+
+                `<div class="letter-prompt-label">${promptLabels[i]}</div>
+
+     <div class="letter-response ${!r.trim() ? 'empty' : ''}">${r.trim() || '(left blank)'}</div>`
+
+            ).join('');
+
+
+
+            document.getElementById('promptsArea').style.display = 'none';
+
+            document.getElementById('letterView').classList.add('show');
+
+        }
+
+
+
+        function goBackToEdit() {
+
+            document.getElementById('promptsArea').style.display = 'block';
+
+            document.getElementById('letterView').classList.remove('show');
+
+            renderPrompt(currentPrompt);
+
+        }
+
+
+
+        // Timer
+
+        function startTimer() {
+
+            if (timerRunning) return;
+
+            timerRunning = true;
+
+            document.getElementById('startTimerBtn').disabled = true;
+
+            document.getElementById('pauseTimerBtn').disabled = false;
+
+            timerInterval = setInterval(tickTimer, 1000);
+
+        }
+
+
+
+        function tickTimer() {
+
+            timerSeconds--;
+
+            if (timerSeconds <= 0) {
+
+                timerSeconds = 0;
+
+                clearInterval(timerInterval);
+
+                timerRunning = false;
+
+                document.getElementById('startTimerBtn').disabled = false;
+
+                document.getElementById('pauseTimerBtn').disabled = true;
+
+                document.getElementById('timerDisplay').style.color = 'var(--coral)';
+
+                document.getElementById('timerDisplay').textContent = "Time's up ✦";
+
+                document.getElementById('timerBar').style.width = '0%';
+
+                return;
+
+            }
+
+            const m = Math.floor(timerSeconds / 60);
+
+            const s = timerSeconds % 60;
+
+            document.getElementById('timerDisplay').textContent = `${m}:${s.toString().padStart(2, '0')}`;
+
+            document.getElementById('timerBar').style.width = (timerSeconds / 300 * 100) + '%';
+
+            if (timerSeconds <= 60) {
+
+                document.getElementById('timerBar').style.background = 'linear-gradient(90deg, var(--coral), var(--blush))';
+
+                document.getElementById('timerDisplay').style.color = 'var(--coral)';
+
+            }
+
+        }
+
+
+
+        function pauseTimer() {
+
+            if (!timerRunning) return;
+
+            clearInterval(timerInterval);
+
+            timerRunning = false;
+
+            document.getElementById('startTimerBtn').disabled = false;
+
+            document.getElementById('startTimerBtn').textContent = '▶ Resume';
+
+            document.getElementById('pauseTimerBtn').disabled = true;
+
+        }
+
+
+
+        function resetTimer() {
+
+            clearInterval(timerInterval);
+
+            timerRunning = false;
+
+            timerSeconds = 300;
+
+            document.getElementById('timerDisplay').textContent = '5:00';
+
+            document.getElementById('timerDisplay').style.color = 'var(--mustard)';
+
+            document.getElementById('timerBar').style.width = '100%';
+
+            document.getElementById('timerBar').style.background = 'linear-gradient(90deg, var(--blush), var(--mustard))';
+
+            document.getElementById('startTimerBtn').disabled = false;
+
+            document.getElementById('startTimerBtn').textContent = '▶ Start 5-min Timer';
+
+            document.getElementById('pauseTimerBtn').disabled = true;
+
+        }
+
+
+
+        // Init
+
+        renderPrompt(0);
+
+
+
+        function saveAsImage() {
+
+            const letter = document.getElementById('letterPaper');
+
+            const btn = document.getElementById('saveImageBtn');
+
+            const originalText = btn.innerHTML;
+
+
+
+            // Feedback
+
+            btn.innerHTML = '⌛ Generating...';
+
+            btn.disabled = true;
+
+
+
+            // We use letterPaper instead of letterView to avoid including the buttons in the screenshot
+
+            html2canvas(letter, {
+
+                backgroundColor: '#FEFBF5',
+
+                scale: 2, // Higher quality
+
+                logging: false,
+
+                useCORS: true,
+
+                allowTaint: true
+
+            }).then(canvas => {
+
+                const link = document.createElement('a');
+
+                link.download = `My-Letter-to-Gut-${new Date().toISOString().slice(0, 10)}.png`;
+
+                link.href = canvas.toDataURL('image/png');
+
+                link.click();
+
+
+
+                // Reset button
+
+                btn.innerHTML = '✅ Saved!';
+
+                setTimeout(() => {
+
+                    btn.innerHTML = originalText;
+
+                    btn.disabled = false;
+
+                }, 2000);
+
+            }).catch(err => {
+
+                console.error('Error generating screenshot:', err);
+
+                btn.innerHTML = '❌ Error';
+
+                setTimeout(() => {
+
+                    btn.innerHTML = originalText;
+
+                    btn.disabled = false;
+
+                }, 2000);
+
+            });
+
+        }
+
+    </script>
+
+</body>
+
+</html>
